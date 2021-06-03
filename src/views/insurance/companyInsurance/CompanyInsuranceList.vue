@@ -4,6 +4,21 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="险种">
+              <a-input placeholder="请输入险种" v-model="queryParam.insureProductName"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
+              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
+              <a @click="handleToggleSearch" style="margin-left: 8px">
+                {{ toggleSearchStatus ? '收起' : '展开' }}
+                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
+              </a>
+            </span>
+          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -122,12 +137,7 @@
             }
           },
           {
-            title:'投保单号',
-            align:"center",
-            dataIndex: 'insureOddNum'
-          },
-          {
-            title:'保单号',
+            title:'保单号 （交强，商业）',
             align:"center",
             dataIndex: 'insureNum'
           },
@@ -155,7 +165,7 @@
             }
           },
           {
-            title:'转保单时间',
+            title:'转保单时间（出单时间）',
             align:"center",
             dataIndex: 'zbTime',
             customRender:function (text) {
@@ -163,7 +173,7 @@
             }
           },
           {
-            title:'转保单日期',
+            title:'转保单日期（出单日期）',
             align:"center",
             dataIndex: 'zbDate',
             customRender:function (text) {
@@ -452,14 +462,13 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'insureOddNum',text:'投保单号',dictCode:''})
-        fieldList.push({type:'string',value:'insureNum',text:'保单号',dictCode:''})
+        fieldList.push({type:'string',value:'insureNum',text:'保单号 （交强，商业）',dictCode:''})
         fieldList.push({type:'string',value:'insureTypeName',text:'险类名称',dictCode:''})
         fieldList.push({type:'string',value:'insureProductCode',text:'险种代码',dictCode:''})
         fieldList.push({type:'string',value:'insureProductName',text:'险种',dictCode:''})
         fieldList.push({type:'date',value:'insureSignDate',text:'签单日期'})
-        fieldList.push({type:'date',value:'zbTime',text:'转保单时间'})
-        fieldList.push({type:'date',value:'zbDate',text:'转保单日期'})
+        fieldList.push({type:'date',value:'zbTime',text:'转保单时间（出单时间）'})
+        fieldList.push({type:'date',value:'zbDate',text:'转保单日期（出单日期）'})
         fieldList.push({type:'date',value:'insureStartDate',text:'起保日期'})
         fieldList.push({type:'int',value:'insureStartHours',text:'起保小时',dictCode:''})
         fieldList.push({type:'int',value:'insureEndHours',text:'终保小时',dictCode:''})
@@ -485,7 +494,7 @@
         fieldList.push({type:'string',value:'distributionChannelCode',text:'渠道码',dictCode:''})
         fieldList.push({type:'string',value:'distributionChannelName',text:'渠道名称',dictCode:''})
         fieldList.push({type:'string',value:'distributionChannelType',text:'渠道类型',dictCode:''})
-        fieldList.push({type:'string',value:'seatsNum',text:'座位',dictCode:''})
+        fieldList.push({type:'int',value:'seatsNum',text:'座位',dictCode:''})
         fieldList.push({type:'int',value:'ton',text:'吨位',dictCode:''})
         fieldList.push({type:'string',value:'repairName',text:'送修码名称',dictCode:''})
         fieldList.push({type:'string',value:'repairCode',text:'送修码',dictCode:''})

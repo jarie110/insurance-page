@@ -63,13 +63,10 @@
     </j-form-container>
   </a-spin>
 </template>
-
 <script>
-
   import { httpAction, getAction } from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
   import JDictSelectTag from "@comp/dict/JDictSelectTag";
-
   export default {
     name: 'InsuranceRebateRatioForm',
     components: {
@@ -85,7 +82,6 @@
     },
     data () {
       return {
-
         isTransferValue: '',
         isDisableIsTransfer:true,
         isShowTransfer: false,
@@ -262,7 +258,7 @@
         }
         if(val == 8){//座位保比例
           this.isShowRebateRatio = true;
-          this.isShowRenewal = true;
+          this.isShowRenewal = false;
           this.isShowDriverLiabilityInsured = true;
           this.isShowPassengerLiability = true;
           this.isShowBonus = true;
@@ -270,7 +266,7 @@
           /*其他*/
           this.isShowThirdPartyAbility = false;
           this.isShowTransfer = false;
-          this.isShowUsage =  false;
+          this.isShowUsage =  true;
           this.isShowCarDamageInsured = false;
         }
       },

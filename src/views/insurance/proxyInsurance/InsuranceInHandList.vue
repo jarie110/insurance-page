@@ -11,6 +11,17 @@
               <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="queryParam.insuranceDate_end"></j-date>
             </a-form-item>
           </a-col>
+
+          <a-col :xl="10" :lg="11" :md="12" :sm="24">
+            <a-form-item label="录入日期">
+              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="queryParam.createTime_begin"></j-date>
+              <span class="query-group-split-cust"></span>
+              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="queryParam.createTime_end"></j-date>
+            </a-form-item>
+          </a-col>
+
+
+
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="车牌号">
               <a-input placeholder="请输入车牌号" v-model="queryParam.vehicleLicense"></a-input>
@@ -137,6 +148,10 @@
         </template>
 
         <span slot="action" slot-scope="text, record">
+          <a-divider type="vertical" />
+          <a @click="handleCheck(record)" :disabled="isDisabled">比对</a>
+
+          <a-divider type="vertical" />
           <a @click="handleEdit(record)">编辑</a>
 
           <a-divider type="vertical" />
@@ -169,7 +184,7 @@
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import InsuranceInHandModal from './modules/InsuranceInHandModal'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
-
+  import { getAction, postAction } from '@/api/manage'
   export default {
     name: 'InsuranceInHandList',
     mixins:[JeecgListMixin, mixinDevice],
@@ -178,6 +193,7 @@
     },
     data () {
       return {
+        isDisabled: false,
         description: '手输保单管理页面',
         // 表头
         columns: [
@@ -367,7 +383,7 @@
           deleteBatch: "/proxyInsurance/insuranceInHand/deleteBatch",
           exportXlsUrl: "/proxyInsurance/insuranceInHand/exportXls",
           importExcelUrl: "proxyInsurance/insuranceInHand/importExcel",
-          
+
         },
         dictOptions:{},
         superFieldList:[],
@@ -384,6 +400,21 @@
     methods: {
       initDictConfig(){
       },
+
+      /*自定义按钮事件*/
+      handleCheck: function(record){
+        getAction('/checked/checkInsurance/check?id='+record.id).then(res => {
+          if (res.success) {
+            this.$message.success("比对成功");
+          //  禁用按钮
+          this.isDisabled = true;
+          }
+          else throw new Error(res.message)
+        }).catch(error => {
+          this.$warning({ title: '比对失败', content: error.message || error })
+        })
+      },
+
       getSuperFieldList(){
         let fieldList=[];
         fieldList.push({type:'date',value:'insuranceDate',text:'出单日期'})
