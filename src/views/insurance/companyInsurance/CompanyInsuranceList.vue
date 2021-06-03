@@ -137,6 +137,11 @@
             }
           },
           {
+            title:'投保单号',
+            align:"center",
+            dataIndex: 'toubaoDh'
+          },
+          {
             title:'保单号 （交强，商业）',
             align:"center",
             dataIndex: 'insureNum'
@@ -175,10 +180,7 @@
           {
             title:'转保单日期（出单日期）',
             align:"center",
-            dataIndex: 'zbDate',
-            customRender:function (text) {
-              return !text?"":(text.length>10?text.substr(0,10):text)
-            }
+            dataIndex: 'zbDate'
           },
           {
             title:'起保日期',
@@ -462,13 +464,14 @@
       },
       getSuperFieldList(){
         let fieldList=[];
+        fieldList.push({type:'string',value:'toubaoDh',text:'投保单号',dictCode:''})
         fieldList.push({type:'string',value:'insureNum',text:'保单号 （交强，商业）',dictCode:''})
         fieldList.push({type:'string',value:'insureTypeName',text:'险类名称',dictCode:''})
         fieldList.push({type:'string',value:'insureProductCode',text:'险种代码',dictCode:''})
         fieldList.push({type:'string',value:'insureProductName',text:'险种',dictCode:''})
         fieldList.push({type:'date',value:'insureSignDate',text:'签单日期'})
         fieldList.push({type:'date',value:'zbTime',text:'转保单时间（出单时间）'})
-        fieldList.push({type:'date',value:'zbDate',text:'转保单日期（出单日期）'})
+        fieldList.push({type:'datetime',value:'zbDate',text:'转保单日期（出单日期）'})
         fieldList.push({type:'date',value:'insureStartDate',text:'起保日期'})
         fieldList.push({type:'int',value:'insureStartHours',text:'起保小时',dictCode:''})
         fieldList.push({type:'int',value:'insureEndHours',text:'终保小时',dictCode:''})
@@ -509,7 +512,7 @@
         fieldList.push({type:'string',value:'bindWechat',text:'是否微信绑定客户',dictCode:''})
         fieldList.push({type:'string',value:'insuranceAlias',text:'承保险别名称',dictCode:''})
         fieldList.push({type:'date',value:'bindWechatDate',text:'微信绑定日期'})
-        fieldList.push({type:'int',value:'carDamageInsured',text:'车损险保额',dictCode:''})
+        fieldList.push({type:'double',value:'carDamageInsured',text:'车损险保额',dictCode:''})
         fieldList.push({type:'string',value:'isElectronicInsurance',text:'是否电子投保单',dictCode:''})
         fieldList.push({type:'string',value:'isUsedElectronic',text:'是否使用电子保单',dictCode:''})
         fieldList.push({type:'int',value:'driverLiabilityInsure',text:'司机责任险保额',dictCode:''})
