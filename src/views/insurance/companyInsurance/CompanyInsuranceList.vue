@@ -5,10 +5,29 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="险种">
-              <a-input placeholder="请输入险种" v-model="queryParam.insureProductName"></a-input>
+            <a-form-item label="保单号">
+              <a-input placeholder="请输入保单号" v-model="queryParam.insuranceNum"></a-input>
             </a-form-item>
           </a-col>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="险种">
+              <j-dict-select-tag placeholder="请选择险种" v-model="queryParam.insureProductName" dictCode="insurance_type"/>
+            </a-form-item>
+          </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :xl="10" :lg="11" :md="12" :sm="24">
+              <a-form-item label="转保单时间">
+                <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="queryParam.zbTime_begin"></j-date>
+                <span class="query-group-split-cust"></span>
+                <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="queryParam.zbTime_end"></j-date>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="渠道名称">
+                <j-dict-select-tag placeholder="请选择渠道名称" v-model="queryParam.distributionChannelName" dictCode="distribution_channel,channel_name,channel_type"/>
+              </a-form-item>
+            </a-col>
+          </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -114,6 +133,7 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import CompanyInsuranceModal from './modules/CompanyInsuranceModal'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
 
   export default {
     name: 'CompanyInsuranceList',
@@ -139,12 +159,12 @@
           {
             title:'投保单号',
             align:"center",
-            dataIndex: 'toubaoDh'
+            dataIndex: 'policyNumber'
           },
           {
-            title:'保单号 （交强，商业）',
+            title:'保单号',
             align:"center",
-            dataIndex: 'insureNum'
+            dataIndex: 'insuranceNum'
           },
           {
             title:'险类名称',
@@ -159,7 +179,7 @@
           {
             title:'险种',
             align:"center",
-            dataIndex: 'insureProductName'
+            dataIndex: 'insureProductName_dictText'
           },
           {
             title:'签单日期',
@@ -170,7 +190,7 @@
             }
           },
           {
-            title:'转保单时间（出单时间）',
+            title:'转保单时间',
             align:"center",
             dataIndex: 'zbTime',
             customRender:function (text) {
@@ -178,7 +198,7 @@
             }
           },
           {
-            title:'转保单日期（出单日期）',
+            title:'转保单日期',
             align:"center",
             dataIndex: 'zbDate'
           },
@@ -309,7 +329,7 @@
           {
             title:'渠道名称',
             align:"center",
-            dataIndex: 'distributionChannelName'
+            dataIndex: 'distributionChannelName_dictText'
           },
           {
             title:'渠道类型',
@@ -464,14 +484,14 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'toubaoDh',text:'投保单号',dictCode:''})
-        fieldList.push({type:'string',value:'insureNum',text:'保单号 （交强，商业）',dictCode:''})
+        fieldList.push({type:'string',value:'policyNumber',text:'投保单号',dictCode:''})
+        fieldList.push({type:'string',value:'insuranceNum',text:'保单号',dictCode:''})
         fieldList.push({type:'string',value:'insureTypeName',text:'险类名称',dictCode:''})
         fieldList.push({type:'string',value:'insureProductCode',text:'险种代码',dictCode:''})
-        fieldList.push({type:'string',value:'insureProductName',text:'险种',dictCode:''})
+        fieldList.push({type:'string',value:'insureProductName',text:'险种',dictCode:'insurance_type'})
         fieldList.push({type:'date',value:'insureSignDate',text:'签单日期'})
-        fieldList.push({type:'date',value:'zbTime',text:'转保单时间（出单时间）'})
-        fieldList.push({type:'datetime',value:'zbDate',text:'转保单日期（出单日期）'})
+        fieldList.push({type:'date',value:'zbTime',text:'转保单时间'})
+        fieldList.push({type:'datetime',value:'zbDate',text:'转保单日期'})
         fieldList.push({type:'date',value:'insureStartDate',text:'起保日期'})
         fieldList.push({type:'int',value:'insureStartHours',text:'起保小时',dictCode:''})
         fieldList.push({type:'int',value:'insureEndHours',text:'终保小时',dictCode:''})
@@ -479,7 +499,7 @@
         fieldList.push({type:'double',value:'insureFeeIncludeTax',text:'签单保费（含税）',dictCode:''})
         fieldList.push({type:'double',value:'insureFeeExcludeTax',text:'签单保费（不含税）',dictCode:''})
         fieldList.push({type:'double',value:'alreadyPaymentFee',text:'已结金额',dictCode:''})
-        fieldList.push({type:'string',value:'unpaidFee',text:'未结金额',dictCode:''})
+        fieldList.push({type:'double',value:'unpaidFee',text:'未结金额',dictCode:''})
         fieldList.push({type:'double',value:'earnMoney',text:'已赚保费',dictCode:''})
         fieldList.push({type:'double',value:'signServiceHarge',text:'签单手续费',dictCode:''})
         fieldList.push({type:'string',value:'renewalType',text:'新续保标志',dictCode:''})
@@ -495,7 +515,7 @@
         fieldList.push({type:'string',value:'vehicleLicense',text:'车牌号',dictCode:''})
         fieldList.push({type:'string',value:'vehicleIdentity',text:'车架号',dictCode:''})
         fieldList.push({type:'string',value:'distributionChannelCode',text:'渠道码',dictCode:''})
-        fieldList.push({type:'string',value:'distributionChannelName',text:'渠道名称',dictCode:''})
+        fieldList.push({type:'string',value:'distributionChannelName',text:'渠道名称',dictCode:'distribution_channel,channel_name,channel_type'})
         fieldList.push({type:'string',value:'distributionChannelType',text:'渠道类型',dictCode:''})
         fieldList.push({type:'int',value:'seatsNum',text:'座位',dictCode:''})
         fieldList.push({type:'int',value:'ton',text:'吨位',dictCode:''})

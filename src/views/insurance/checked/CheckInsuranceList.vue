@@ -4,6 +4,79 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
+          <a-col :xl="10" :lg="11" :md="12" :sm="24">
+            <a-form-item label="录入日期">
+              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="queryParam.inputInsuranceDate_begin"></j-date>
+              <span class="query-group-split-cust"></span>
+              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="queryParam.inputInsuranceDate_end"></j-date>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="10" :lg="11" :md="12" :sm="24">
+            <a-form-item label="出单日期">
+              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="queryParam.insuranceDate_begin"></j-date>
+              <span class="query-group-split-cust"></span>
+              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="queryParam.insuranceDate_end"></j-date>
+            </a-form-item>
+          </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="所属团队">
+                <j-dict-select-tag placeholder="请输入所属团队" v-model="queryParam.insuranceTeam" dictCode="insurance_team,team_name,team_code"/>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="客户名称">
+                <a-input placeholder="请输入客户名称" v-model="queryParam.customerName"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="车架号">
+                <a-input placeholder="请输入车架号" v-model="queryParam.vehicleIdentity"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="交强险保单号">
+                <a-input placeholder="请输入交强险保单号" v-model="queryParam.compulsoryInsurCode"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="商业险保单号">
+                <a-input placeholder="请输入商业险保单号" v-model="queryParam.commercialInsurCode"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="渠道名称">
+                <a-input placeholder="请输入渠道名称" v-model="queryParam.distributionChannelId"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="是否返点">
+<!--                <a-input placeholder="请输入是否返点" v-model="queryParam.isRebate"></a-input>-->
+                <j-dict-select-tag placeholder="请输入是否返点" v-model="queryParam.isRebate" dictCode="is_paid_rebate"/>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="返点支付时间">
+                <j-date placeholder="请选择返点支付时间" v-model="queryParam.rebatePaymentDate"></j-date>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="返点收取方式">
+<!--                <a-input placeholder="请输入返点收取方式" v-model="queryParam.rebateWay"></a-input>-->
+                <j-dict-select-tag placeholder="请输入返点收取方式" v-model="queryParam.rebateWay" dictCode="rebate_way"/>
+              </a-form-item>
+            </a-col>
+          </template>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
+              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
+              <a @click="handleToggleSearch" style="margin-left: 8px">
+                {{ toggleSearchStatus ? '收起' : '展开' }}
+                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
+              </a>
+            </span>
+          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -11,11 +84,11 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
+<!--      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>-->
       <a-button type="primary" icon="download" @click="handleExportXls('核对的保单')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
+<!--      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">-->
+<!--        <a-button type="primary" icon="import">导入</a-button>-->
+<!--      </a-upload>-->
       <!-- 高级查询区域 -->
       <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -99,6 +172,7 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import CheckInsuranceModal from './modules/CheckInsuranceModal'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
 
   export default {
     name: 'CheckInsuranceList',
@@ -339,7 +413,7 @@
           deleteBatch: "/checked/checkInsurance/deleteBatch",
           exportXlsUrl: "/checked/checkInsurance/exportXls",
           importExcelUrl: "checked/checkInsurance/importExcel",
-          
+
         },
         dictOptions:{},
         superFieldList:[],
@@ -390,7 +464,7 @@
         fieldList.push({type:'double',value:'totalServiceFee',text:'手续费总额',dictCode:''})
         fieldList.push({type:'string',value:'isRebate',text:'是否返点',dictCode:''})
         fieldList.push({type:'date',value:'rebatePaymentDate',text:'返点支付时间'})
-        fieldList.push({type:'int',value:'rebateWay',text:'返点收取方式',dictCode:''})
+        fieldList.push({type:'int',value:'rebateWay',text:'返点收取方式',dictCode:'rebate_way'})
         fieldList.push({type:'string',value:'vehicleLicense',text:'车牌号',dictCode:''})
         fieldList.push({type:'double',value:'commercialInsurFee',text:'商业险保费',dictCode:''})
         fieldList.push({type:'double',value:'vehicleVesselTax',text:'车船税',dictCode:''})
