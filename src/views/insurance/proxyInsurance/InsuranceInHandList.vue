@@ -149,7 +149,7 @@
 
         <span slot="action" slot-scope="text, record">
           <a-divider type="vertical" />
-          <a @click="handleCheck(record)" :disabled="isDisabled">比对</a>
+          <a @click="handleCheck(record)" :disabled="record.isChecked == 1">比对</a>
 
           <a-divider type="vertical" />
           <a @click="handleEdit(record)">编辑</a>
@@ -193,7 +193,7 @@
     },
     data () {
       return {
-        isDisabled: false,
+        // isDisabled: true,
         description: '手输保单管理页面',
         // 表头
         columns: [
@@ -217,6 +217,11 @@
           },
           {
             title:'出单员',
+            align:"center",
+            dataIndex: 'billMan'
+          },
+          {
+            title:'业务员',
             align:"center",
             dataIndex: 'salesman'
           },
@@ -286,11 +291,6 @@
             dataIndex: 'distributionChannelId_dictText'
           },
           {
-            title:'备注',
-            align:"center",
-            dataIndex: 'remark'
-          },
-          {
             title:'所属团队',
             align:"center",
             dataIndex: 'insuranceTeam_dictText'
@@ -329,11 +329,6 @@
             dataIndex: 'isTransfer_dictText'
           },
           {
-            title:'签单手续费',
-            align:"center",
-            dataIndex: 'signFee'
-          },
-          {
             title:'座位数',
             align:"center",
             dataIndex: 'seatsNum'
@@ -367,6 +362,11 @@
             title:'返点支付方式',
             align:"center",
             dataIndex: 'paymentWay_dictText'
+          },
+          {
+            title:'备注',
+            align:"center",
+            dataIndex: 'remark'
           },
           {
             title: '操作',
@@ -404,10 +404,11 @@
       /*自定义按钮事件*/
       handleCheck: function(record){
         getAction('/checked/checkInsurance/check?id='+record.id).then(res => {
+          // console.log(res)
           if (res.success) {
             this.$message.success("比对成功");
-          //  禁用按钮
-          this.isDisabled = true;
+            // console.log(this.$route);
+            this.loadData();
           }
           else throw new Error(res.message)
         }).catch(error => {

@@ -51,8 +51,7 @@
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="是否返点">
-<!--                <a-input placeholder="请输入是否返点" v-model="queryParam.isRebate"></a-input>-->
-                <j-dict-select-tag placeholder="请输入是否返点" v-model="queryParam.isRebate" dictCode="is_paid_rebate"/>
+                <j-dict-select-tag placeholder="请选择是否返点" v-model="queryParam.isRebate" dictCode="is_paid_rebate"/>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
@@ -62,8 +61,7 @@
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="返点收取方式">
-<!--                <a-input placeholder="请输入返点收取方式" v-model="queryParam.rebateWay"></a-input>-->
-                <j-dict-select-tag placeholder="请输入返点收取方式" v-model="queryParam.rebateWay" dictCode="rebate_way"/>
+                <j-dict-select-tag placeholder="请选择返点收取方式" v-model="queryParam.rebateWay" dictCode="rebate_way"/>
               </a-form-item>
             </a-col>
           </template>
@@ -227,6 +225,11 @@
           {
             title:'出单员',
             align:"center",
+            dataIndex: 'billMan'
+          },
+          {
+            title:'业务员',
+            align:"center",
             dataIndex: 'salesman'
           },
           {
@@ -363,7 +366,7 @@
           {
             title:'是否返点',
             align:"center",
-            dataIndex: 'isRebate'
+            dataIndex: 'isRebate_dictText'
           },
           {
             title:'返点支付时间',
@@ -376,7 +379,7 @@
           {
             title:'返点收取方式',
             align:"center",
-            dataIndex: 'rebateWay'
+            dataIndex: 'rebateWay_dictText'
           },
           {
             title:'车牌号',
@@ -413,7 +416,7 @@
           deleteBatch: "/checked/checkInsurance/deleteBatch",
           exportXlsUrl: "/checked/checkInsurance/exportXls",
           importExcelUrl: "checked/checkInsurance/importExcel",
-
+          
         },
         dictOptions:{},
         superFieldList:[],
@@ -436,7 +439,8 @@
         fieldList.push({type:'date',value:'inputInsuranceDate',text:'录入日期'})
         fieldList.push({type:'date',value:'checkDate',text:'比对日期'})
         fieldList.push({type:'date',value:'insuranceDate',text:'出单日期'})
-        fieldList.push({type:'string',value:'salesman',text:'出单员',dictCode:''})
+        fieldList.push({type:'string',value:'billMan',text:'出单员',dictCode:''})
+        fieldList.push({type:'string',value:'salesman',text:'业务员',dictCode:''})
         fieldList.push({type:'string',value:'insuranceTeam',text:'所属团队',dictCode:''})
         fieldList.push({type:'string',value:'customerName',text:'客户名称',dictCode:''})
         fieldList.push({type:'string',value:'vehicleIdentity',text:'车架号',dictCode:''})
@@ -455,14 +459,14 @@
         fieldList.push({type:'string',value:'carUsageType',text:'使用性质',dictCode:''})
         fieldList.push({type:'string',value:'vehiclesType',text:'车辆种类',dictCode:''})
         fieldList.push({type:'string',value:'isTransfer',text:'是否录入过户标志',dictCode:''})
-        fieldList.push({type:'int',value:'thirdPartyInsured',text:'三责保额',dictCode:''})
-        fieldList.push({type:'int',value:'carDamageInsured',text:'车损险保额',dictCode:''})
+        fieldList.push({type:'double',value:'thirdPartyInsured',text:'三责保额',dictCode:''})
+        fieldList.push({type:'double',value:'carDamageInsured',text:'车损险保额',dictCode:''})
         fieldList.push({type:'string',value:'insuranceAlias',text:'承保险别名称',dictCode:''})
         fieldList.push({type:'int',value:'seatsNum',text:'座位',dictCode:''})
-        fieldList.push({type:'int',value:'driverLiabilityInsure',text:'司机责任险保额',dictCode:''})
-        fieldList.push({type:'int',value:'passengerLiability',text:'乘客责任险保额',dictCode:''})
+        fieldList.push({type:'double',value:'driverLiabilityInsure',text:'司机责任险保额',dictCode:''})
+        fieldList.push({type:'double',value:'passengerLiability',text:'乘客责任险保额',dictCode:''})
         fieldList.push({type:'double',value:'totalServiceFee',text:'手续费总额',dictCode:''})
-        fieldList.push({type:'string',value:'isRebate',text:'是否返点',dictCode:''})
+        fieldList.push({type:'int',value:'isRebate',text:'是否返点',dictCode:'	is_paid_rebate'})
         fieldList.push({type:'date',value:'rebatePaymentDate',text:'返点支付时间'})
         fieldList.push({type:'int',value:'rebateWay',text:'返点收取方式',dictCode:'rebate_way'})
         fieldList.push({type:'string',value:'vehicleLicense',text:'车牌号',dictCode:''})

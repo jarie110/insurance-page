@@ -68,7 +68,7 @@
         </template>
 
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+          <a @click="handleEdit/*Rebate*/(record)" >编辑</a>
 
           <a-divider type="vertical" />
           <a-dropdown>
@@ -100,6 +100,12 @@
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import InsuranceRebateRatioModal from './modules/InsuranceRebateRatioModal'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+  import { getAction, postAction } from '@/api/manage'
+
+
+
+  import { JFormContainer } from '@/components/jeecg/JFormContainer.vue'
+
 
   export default {
     name: 'InsuranceRebateRatioList',
@@ -172,11 +178,11 @@
             align:"center",
             dataIndex: 'bonus'
           },
-          {
-            title:'签单手续费',
-            align:"center",
-            dataIndex: 'signFee'
-          },
+          // {
+          //   title:'签单手续费',
+          //   align:"center",
+          //   dataIndex: 'signFee'
+          // },
           {
             title: '操作',
             dataIndex: 'action',
@@ -192,7 +198,7 @@
           deleteBatch: "/rebate/insuranceRebateRatio/deleteBatch",
           exportXlsUrl: "/rebate/insuranceRebateRatio/exportXls",
           importExcelUrl: "rebate/insuranceRebateRatio/importExcel",
-          
+
         },
         dictOptions:{},
         superFieldList:[],
@@ -221,7 +227,7 @@
         fieldList.push({type:'string',value:'passengerLiability',text:'乘客责任险保额档',dictCode:''})
         fieldList.push({type:'double',value:'rebateRatio',text:'返点比例',dictCode:''})
         fieldList.push({type:'double',value:'bonus',text:'奖金',dictCode:''})
-        fieldList.push({type:'string',value:'signFee',text:'签单手续费',dictCode:''})
+        // fieldList.push({type:'string',value:'signFee',text:'签单手续费',dictCode:''})
         this.superFieldList = fieldList
       }
     }

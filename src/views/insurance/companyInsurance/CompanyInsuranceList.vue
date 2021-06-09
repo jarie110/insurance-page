@@ -24,9 +24,10 @@
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="渠道名称">
-                <j-dict-select-tag placeholder="请选择渠道名称" v-model="queryParam.distributionChannelName" dictCode="distribution_channel,channel_name,channel_type"/>
+                <j-dict-select-tag placeholder="请选择渠道名称" v-model="queryParam.distributionChannelName" dictCode="distribution_channel,channel_name,channel_name"/><!--@input="changeChannel"-->
               </a-form-item>
             </a-col>
+
           </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
@@ -134,6 +135,7 @@
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import CompanyInsuranceModal from './modules/CompanyInsuranceModal'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+  import {getAction} from "@api/manage";
 
   export default {
     name: 'CompanyInsuranceList',
@@ -143,6 +145,7 @@
     },
     data () {
       return {
+        distributionChannelName: [],
         description: '保险公司保单管理页面',
         // 表头
         columns: [
@@ -465,7 +468,7 @@
           deleteBatch: "/companyInsurance/companyInsurance/deleteBatch",
           exportXlsUrl: "/companyInsurance/companyInsurance/exportXls",
           importExcelUrl: "companyInsurance/companyInsurance/importExcel",
-          
+
         },
         dictOptions:{},
         superFieldList:[],
@@ -481,6 +484,16 @@
     },
     methods: {
       initDictConfig(){
+        // this.changeChannel();
+      },
+      // //数据库查询所有渠道信息
+      changeChannel() {
+          getAction('/salesChannel/distributionChannel/channelList').then(res => {
+            console.log(res)
+              // this.distributionChannelName = res.result;
+
+              console.log(this.distributionChannelName)
+          }).catch(error => {})
       },
       getSuperFieldList(){
         let fieldList=[];

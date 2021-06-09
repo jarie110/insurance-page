@@ -10,9 +10,15 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="出单员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="salesman">
-              <a-input v-model="model.salesman" placeholder="请输入出单员"  ></a-input>
+              <a-input v-model="model.billMan" placeholder="请输入出单员"  ></a-input>
             </a-form-model-item>
           </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="业务员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="billMan">
+              <a-input v-model="model.salesman" placeholder="请输入业务员"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+
           <a-col :span="24">
             <a-form-model-item label="车牌号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vehicleLicense">
               <a-input v-model="model.vehicleLicense" placeholder="请输入车牌号"  ></a-input>
@@ -79,11 +85,6 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
-            <a-form-model-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="remark">
-              <a-input v-model="model.remark" placeholder="请输入备注"  ></a-input>
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
             <a-form-model-item label="所属团队" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="insuranceTeam">
               <j-dict-select-tag type="list" v-model="model.insuranceTeam" dictCode="insurance_team,team_name,team_code" placeholder="请选择所属团队" />
             </a-form-model-item>
@@ -118,11 +119,11 @@
               <j-dict-select-tag type="list" v-model="model.isTransfer" dictCode="is_transfer" placeholder="请选择是否过户" />
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="签单手续费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="signFee">
-              <a-input-number v-model="model.signFee" placeholder="请输入签单手续费" style="width: 100%" />
-            </a-form-model-item>
-          </a-col>
+<!--          <a-col :span="24">-->
+<!--            <a-form-model-item label="签单手续费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="signFee">-->
+<!--              <a-input-number v-model="model.signFee" placeholder="请输入签单手续费" style="width: 100%" />-->
+<!--            </a-form-model-item>-->
+<!--          </a-col>-->
           <a-col :span="24">
             <a-form-model-item label="座位数" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="seatsNum">
               <a-input-number v-model="model.seatsNum" placeholder="请输入座位数" style="width: 100%" />
@@ -150,12 +151,17 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="座位保奖励金" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="seatBonus">
-              <a-input-number v-model="model.seatBonus" placeholder="请输入座位保奖励金" style="width: 100%" disabled/>
+              <a-input-number v-model="model.seatBonus" placeholder="请输入座位保奖励金" style="width: 100%" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="返点支付方式" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="paymentWay">
               <j-dict-select-tag type="list" v-model="model.paymentWay" dictCode="rebate_way" placeholder="请选择返点支付方式" />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="remark">
+              <a-textarea v-model="model.remark" rows="4" placeholder="备注最多40个字" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -200,9 +206,12 @@
            insuranceDate: [
               { required: true, message: '请输入出单日期!'},
            ],
-           salesman: [
+          billMan: [
               { required: true, message: '请输入出单员!'},
            ],
+          salesman: [
+            { required: true, message: '请输入业务员!'},
+          ],
            vehicleLicense: [
               { required: true, message: '请输入车牌号!'},
            ],
@@ -241,9 +250,6 @@
            ],
            isTransfer: [
               { required: true, message: '请输入是否过户!'},
-           ],
-           signFee: [
-              { required: true, message: '请输入签单手续费!'},
            ],
            seatsNum: [
               { required: true, message: '请输入座位数!'},

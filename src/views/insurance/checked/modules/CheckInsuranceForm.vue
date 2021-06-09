@@ -24,8 +24,13 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
-            <a-form-model-item label="出单员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="salesman">
-              <a-input v-model="model.salesman" placeholder="请输入出单员" disabled ></a-input>
+            <a-form-model-item label="出单员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="billMan">
+              <a-input v-model="model.billMan" placeholder="请输入出单员" disabled ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="业务员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="salesman">
+              <a-input v-model="model.salesman" placeholder="请输入业务员"  ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -155,7 +160,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="是否返点" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="isRebate">
-              <a-input v-model="model.isRebate" placeholder="请输入是否返点" disabled ></a-input>
+              <j-dict-select-tag type="list" v-model="model.isRebate" dictCode="is_paid_rebate" placeholder="请选择是否返点" disabled/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -165,7 +170,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="返点收取方式" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="rebateWay">
-              <a-input-number v-model="model.rebateWay" placeholder="请输入返点收取方式" style="width: 100%" />
+              <j-dict-select-tag type="list" v-model="model.rebateWay" dictCode="rebate_way" placeholder="请选择返点收取方式" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">

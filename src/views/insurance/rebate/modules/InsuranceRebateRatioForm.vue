@@ -5,7 +5,7 @@
         <a-row>
           <a-col :span="24">
             <a-form-model-item label="返点类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="rebateRatioType">
-              <j-dict-select-tag type="list" v-model="model.rebateRatioType" @input="changeRebate" dictCode="rebate_ratio_type" placeholder="请选择返点类型" />
+              <j-dict-select-tag type="list" v-model="model.rebateRatioType" @input="changeRebate" dictCode="rebate_ratio_type" placeholder="请选择返点类型" :disabled="isShow" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24" v-if="isShowTransfer">
@@ -82,6 +82,7 @@
     },
     data () {
       return {
+        isShow: false,
         isTransferValue: '',
         isDisableIsTransfer:true,
         isShowTransfer: false,
@@ -138,7 +139,7 @@
         this.edit(this.modelDefault);
       },
       changeRebate(val){
-        console.log(val);
+        // console.log(val);
         if(val == 0){//商业险返点
           this.isShowUsage = true;
           this.isShowRebateRatio = true;
@@ -273,6 +274,8 @@
       edit (record) {
         this.model = Object.assign({}, record);
         this.visible = true;
+        this.changeRebate(this.model.rebateRatioType);
+        this.isShow = true;
       },
       submitForm () {
         const that = this;
