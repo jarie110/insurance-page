@@ -24,10 +24,9 @@
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="渠道名称">
-                <j-dict-select-tag placeholder="请选择渠道名称" v-model="queryParam.distributionChannelName" dictCode="distribution_channel,channel_name,channel_name"/><!--@input="changeChannel"-->
+                <j-dict-select-tag placeholder="请选择渠道名称" v-model="queryParam.distributionChannelName" dictCode="distribution_channel,channel_name,channel_type"/>
               </a-form-item>
             </a-col>
-
           </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
@@ -264,7 +263,7 @@
           {
             title:'新续保标志',
             align:"center",
-            dataIndex: 'renewalType'
+            dataIndex: 'renewalType_dictText'
           },
           {
             title:'出单员',
@@ -292,7 +291,7 @@
           {
             title:'使用性质',
             align:"center",
-            dataIndex: 'carUsageType'
+            dataIndex: 'carUsageType_dictText'
           },
           {
             title:'车辆种类',
@@ -468,7 +467,7 @@
           deleteBatch: "/companyInsurance/companyInsurance/deleteBatch",
           exportXlsUrl: "/companyInsurance/companyInsurance/exportXls",
           importExcelUrl: "companyInsurance/companyInsurance/importExcel",
-
+          
         },
         dictOptions:{},
         superFieldList:[],
@@ -484,16 +483,6 @@
     },
     methods: {
       initDictConfig(){
-        // this.changeChannel();
-      },
-      // //数据库查询所有渠道信息
-      changeChannel() {
-          getAction('/salesChannel/distributionChannel/channelList').then(res => {
-            console.log(res)
-              // this.distributionChannelName = res.result;
-
-              console.log(this.distributionChannelName)
-          }).catch(error => {})
       },
       getSuperFieldList(){
         let fieldList=[];
@@ -515,14 +504,14 @@
         fieldList.push({type:'double',value:'unpaidFee',text:'未结金额',dictCode:''})
         fieldList.push({type:'double',value:'earnMoney',text:'已赚保费',dictCode:''})
         fieldList.push({type:'double',value:'signServiceHarge',text:'签单手续费',dictCode:''})
-        fieldList.push({type:'string',value:'renewalType',text:'新续保标志',dictCode:''})
+        fieldList.push({type:'string',value:'renewalType',text:'新续保标志',dictCode:'renewal_symbol'})
         fieldList.push({type:'string',value:'salesMan',text:'出单员',dictCode:''})
         fieldList.push({type:'string',value:'policyHolder',text:'投保人名称',dictCode:''})
         fieldList.push({type:'string',value:'insurant',text:'被保险人名称',dictCode:''})
         fieldList.push({type:'date',value:'registerDate',text:'初登日期'})
-        fieldList.push({type:'string',value:'carUsageType',text:'使用性质',dictCode:''})
+        fieldList.push({type:'string',value:'carUsageType',text:'使用性质',dictCode:'insurance_usage,usage_name,usage_type'})
         fieldList.push({type:'string',value:'vehiclesType',text:'车辆种类',dictCode:''})
-        fieldList.push({type:'int',value:'thirdPartyInsured',text:'三责保额',dictCode:''})
+        fieldList.push({type:'double',value:'thirdPartyInsured',text:'三责保额',dictCode:''})
         fieldList.push({type:'double',value:'thirdPartyFee',text:'三责保费',dictCode:''})
         fieldList.push({type:'string',value:'engineNumber',text:'发动机号',dictCode:''})
         fieldList.push({type:'string',value:'vehicleLicense',text:'车牌号',dictCode:''})
@@ -548,8 +537,8 @@
         fieldList.push({type:'double',value:'carDamageInsured',text:'车损险保额',dictCode:''})
         fieldList.push({type:'string',value:'isElectronicInsurance',text:'是否电子投保单',dictCode:''})
         fieldList.push({type:'string',value:'isUsedElectronic',text:'是否使用电子保单',dictCode:''})
-        fieldList.push({type:'int',value:'driverLiabilityInsure',text:'司机责任险保额',dictCode:''})
-        fieldList.push({type:'int',value:'passengerLiability',text:'乘客责任险保额',dictCode:''})
+        fieldList.push({type:'double',value:'driverLiabilityInsure',text:'司机责任险保额',dictCode:''})
+        fieldList.push({type:'double',value:'passengerLiability',text:'乘客责任险保额',dictCode:''})
         fieldList.push({type:'date',value:'lastYearInvalid',text:'上年终保日期'})
         this.superFieldList = fieldList
       }

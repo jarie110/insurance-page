@@ -4,6 +4,11 @@
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
           <a-col :span="24">
+            <a-form-model-item label="出单日期" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="createTime">
+              <j-date placeholder="请选择创建日期"  v-model="model.createTime" :show-time="true" date-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
             <a-form-model-item label="返点类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="rebateRatioType">
               <j-dict-select-tag type="list" v-model="model.rebateRatioType" @input="changeRebate" dictCode="rebate_ratio_type" placeholder="请选择返点类型" :disabled="isShow" />
             </a-form-model-item>
@@ -135,9 +140,9 @@
       this.modelDefault = JSON.parse(JSON.stringify(this.model));
     },
     methods: {
-      add () {
-        this.edit(this.modelDefault);
-      },
+      // add () {
+      //   // this.edit(this.modelDefault);
+      // },
       changeRebate(val){
         // console.log(val);
         if(val == 0){//商业险返点

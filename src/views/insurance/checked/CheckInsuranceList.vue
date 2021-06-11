@@ -235,7 +235,7 @@
           {
             title:'所属团队',
             align:"center",
-            dataIndex: 'insuranceTeam'
+            dataIndex: 'insuranceTeam_dictText'
           },
           {
             title:'客户名称',

@@ -4,6 +4,13 @@
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
           <a-col :span="24">
+            <a-form-model-item label="出单日" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="insuranceDate">
+              <a-input-number v-model="model.insuranceDate" placeholder="出单日期" style="width: 100%" />
+            </a-form-model-item>
+          </a-col>
+
+
+          <a-col :span="24">
             <a-form-model-item label="使用性质类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="usageType">
               <a-input-number v-model="model.usageType" placeholder="请输入使用性质类型" style="width: 100%" />
             </a-form-model-item>

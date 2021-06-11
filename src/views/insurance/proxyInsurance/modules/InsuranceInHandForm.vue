@@ -119,11 +119,6 @@
               <j-dict-select-tag type="list" v-model="model.isTransfer" dictCode="is_transfer" placeholder="请选择是否过户" />
             </a-form-model-item>
           </a-col>
-<!--          <a-col :span="24">-->
-<!--            <a-form-model-item label="签单手续费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="signFee">-->
-<!--              <a-input-number v-model="model.signFee" placeholder="请输入签单手续费" style="width: 100%" />-->
-<!--            </a-form-model-item>-->
-<!--          </a-col>-->
           <a-col :span="24">
             <a-form-model-item label="座位数" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="seatsNum">
               <a-input-number v-model="model.seatsNum" placeholder="请输入座位数" style="width: 100%" />
@@ -190,9 +185,9 @@
     data () {
       return {
         model:{
-            isPayCommission:0,
-            isChecked:0,
-         },
+          isPayCommission:0,
+          isChecked:0,
+        },
         labelCol: {
           xs: { span: 24 },
           sm: { span: 5 },
@@ -203,63 +198,63 @@
         },
         confirmLoading: false,
         validatorRules: {
-           insuranceDate: [
-              { required: true, message: '请输入出单日期!'},
-           ],
+          insuranceDate: [
+            { required: true, message: '请输入出单日期!'},
+          ],
           billMan: [
-              { required: true, message: '请输入出单员!'},
-           ],
+            { required: true, message: '请输入出单员!'},
+          ],
           salesman: [
             { required: true, message: '请输入业务员!'},
           ],
-           vehicleLicense: [
-              { required: true, message: '请输入车牌号!'},
-           ],
-           customer: [
-              { required: true, message: '请输入客户名称!'},
-           ],
-           vehicleIdentity: [
-              { required: true, message: '请输入车架号!'},
-           ],
-           compulsoryInsurCode: [
-              { required: true, message: '请输入交强险保单号!'},
-           ],
-           compulsoryInsurFee: [
-              { required: true, message: '请输入交强险保费!'},
-           ],
-           commercialInsurCode: [
-              { required: true, message: '请输入商业险保单号!'},
-           ],
-           commercialInsurFee: [
-              { required: true, message: '请输入商业险保费!'},
-           ],
-           vehicleVesselTax: [
-              { required: true, message: '请输入车船税!'},
-           ],
-           renewalType: [
-              { required: true, message: '请输入新续保标志!'},
-           ],
-           carUsageType: [
-              { required: true, message: '请输入使用性质!'},
-           ],
-           insuranceTeam: [
-              { required: true, message: '请输入所属团队!'},
-           ],
-           registerDate: [
-              { required: true, message: '请输入初登日期!'},
-           ],
-           isTransfer: [
-              { required: true, message: '请输入是否过户!'},
-           ],
-           seatsNum: [
-              { required: true, message: '请输入座位数!'},
-           ],
-           isPayCommission: [
-              { required: true, message: '请输入是否返佣!'},
-           ],
-           isChecked: [
-              { required: true, message: '请输入是否比对!'},
-           ],
+          vehicleLicense: [
+            { required: true, message: '请输入车牌号!'},
+          ],
+          customer: [
+            { required: true, message: '请输入客户名称!'},
+          ],
+          vehicleIdentity: [
+            { required: true, message: '请输入车架号!'},
+          ],
+          compulsoryInsurCode: [
+            { required: true, message: '请输入交强险保单号!'},
+          ],
+          compulsoryInsurFee: [
+            { required: true, message: '请输入交强险保费!'},
+          ],
+          commercialInsurCode: [
+            { required: true, message: '请输入商业险保单号!'},
+          ],
+          commercialInsurFee: [
+            { required: true, message: '请输入商业险保费!'},
+          ],
+          vehicleVesselTax: [
+            { required: true, message: '请输入车船税!'},
+          ],
+          renewalType: [
+            { required: true, message: '请输入新续保标志!'},
+          ],
+          carUsageType: [
+            { required: true, message: '请输入使用性质!'},
+          ],
+          insuranceTeam: [
+            { required: true, message: '请输入所属团队!'},
+          ],
+          registerDate: [
+            { required: true, message: '请输入初登日期!'},
+          ],
+          isTransfer: [
+            { required: true, message: '请输入是否过户!'},
+          ],
+          seatsNum: [
+            { required: true, message: '请输入座位数!'},
+          ],
+          isPayCommission: [
+            { required: true, message: '请输入是否返佣!'},
+          ],
+          isChecked: [
+            { required: true, message: '请输入是否比对!'},
+          ],
         },
         url: {
           add: "/proxyInsurance/insuranceInHand/add",

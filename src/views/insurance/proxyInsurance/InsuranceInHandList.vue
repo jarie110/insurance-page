@@ -154,6 +154,11 @@
           <a-divider type="vertical" />
           <a @click="handleEdit(record)">编辑</a>
 
+<!--          计算按钮-->
+          <a-divider type="vertical" />
+          <a @click="handleCalculate(record)" :disabled="record.isChecked != 1">计算</a>
+
+
           <a-divider type="vertical" />
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
@@ -402,6 +407,7 @@
       },
 
       /*自定义按钮事件*/
+      //比对
       handleCheck: function(record){
         getAction('/checked/checkInsurance/check?id='+record.id).then(res => {
           // console.log(res)
@@ -413,6 +419,21 @@
           else throw new Error(res.message)
         }).catch(error => {
           this.$warning({ title: '比对失败', content: error.message || error })
+        })
+      },
+
+      //计算
+      handleCalculate(record){
+        getAction('/proxyInsurance/insuranceInHand/calculate?id='+record.id).then(res => {
+          console.log(res)
+          if (res.success) {
+            this.$message.success("计算成功");
+            // console.log(this.$route);
+            this.loadData();
+          }
+          else throw new Error(res.message)
+        }).catch(error => {
+          this.$warning({ title: '计算失败', content: error.message || error })
         })
       },
 

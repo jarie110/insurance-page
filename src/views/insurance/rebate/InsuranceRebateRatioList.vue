@@ -1,5 +1,6 @@
 <template>
   <a-card :bordered="false">
+
     <!-- 查询区域 -->
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
@@ -16,6 +17,7 @@
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
+      <a-button @click="handleBatchSetting" type="primary" icon="form">批量设置</a-button>
       <!-- 高级查询区域 -->
       <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -27,11 +29,17 @@
     </div>
 
     <!-- table区域-begin -->
+
+
+
     <div>
+
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
         <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
+
+
 
       <a-table
         ref="table"
@@ -90,6 +98,173 @@
     </div>
 
     <insurance-rebate-ratio-modal ref="modalForm" @ok="modalFormOk"></insurance-rebate-ratio-modal>
+    <a-modal
+      :width="800"
+      switchFullscreen
+      v-model="isShowBatchSettings" title="Title" on-ok="handleOk">
+      <a-row  :gutter="24">
+
+          <a-form-item label="商业基础险">
+            <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+            </a-col>
+            <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="使用性质">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+            </a-col>
+            <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+            </a-col>
+          </a-form-item>
+
+      </a-row>
+      <a-row  :gutter="24">
+          <a-form-item label="三者责任险">
+            <a-col :xl="8" :lg="7" :md="8" :sm="24">
+              <a-form-item label="续保标志">
+                <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="8" :lg="7" :md="8" :sm="24">
+              <a-form-item label="使用性质">
+                <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="8" :lg="7" :md="8" :sm="24">
+              <a-form-item label="续保标志">
+                <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+              </a-form-item>
+            </a-col>
+          </a-form-item>
+      </a-row>
+      <a-row  :gutter="24">
+        <a-form-item label="新车返点">
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="使用性质">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+        </a-form-item>
+      </a-row>
+      <a-row  :gutter="24">
+        <a-form-item label="次新车返点">
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="使用性质">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+        </a-form-item>
+      </a-row>
+      <a-row  :gutter="24">
+        <a-form-item label="竟回返点">
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="使用性质">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+        </a-form-item>
+      </a-row>
+      <a-row  :gutter="24">
+        <a-form-item label="过户返点">
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="使用性质">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+        </a-form-item>
+      </a-row>
+      <a-row  :gutter="24">
+        <a-form-item label="交叉返点">
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="使用性质">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+        </a-form-item>
+      </a-row>
+      <a-row  :gutter="24">
+        <a-form-item label="跟单零返点">
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="使用性质">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="续保标志">
+              <a-input v-model="batchSettingsData" placeholder="请输入车损险保额档"  ></a-input>
+            </a-form-item>
+          </a-col>
+        </a-form-item>
+      </a-row>
+      <template slot="footer">
+        <a-button key="back" @click="handleCancel">
+          Return
+        </a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">
+          Submit
+        </a-button>
+      </template>
+    </a-modal>
   </a-card>
 </template>
 
@@ -101,12 +276,7 @@
   import InsuranceRebateRatioModal from './modules/InsuranceRebateRatioModal'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
   import { getAction, postAction } from '@/api/manage'
-
-
-
   import { JFormContainer } from '@/components/jeecg/JFormContainer.vue'
-
-
   export default {
     name: 'InsuranceRebateRatioList',
     mixins:[JeecgListMixin, mixinDevice],
@@ -115,6 +285,56 @@
     },
     data () {
       return {
+        rebates: [],
+        isShowBatchSettings:false,
+        batchSettingsData:{
+          //商业基础险
+          businessBaseInsurance:[
+            {rebateType: '0',usageType: '0',rebateRatio: '',createTime:''},//家庭自用汽车
+            {rebateType: '0',usageType: '1',rebateRatio: '',createTime:''},//非营业企业客车
+            {rebateType: '0',usageType: '2',rebateRatio: '',createTime:''},//营业货车
+            {rebateType: '0',usageType: '3',rebateRatio: '',createTime:''},//非营业货车
+            {rebateType: '0',usageType: '9',rebateRatio: '',createTime:''},//其他用途
+          ],
+          thirdPartyInsurance:[
+            //三者责任险（使用性质）
+            {rebateType: '1',usageType: '0',thirdPartyInsured: '',carDamageInsured: '0',rebateRatio: '',createTime:''},//车损为0，三者保额档
+            {rebateType: '1',usageType: '1',thirdPartyInsured: '',carDamageInsured: '0',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '2',thirdPartyInsured: '',carDamageInsured: '0',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '3',thirdPartyInsured: '',carDamageInsured: '0',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '4',thirdPartyInsured: '',carDamageInsured: '0',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '5',thirdPartyInsured: '',carDamageInsured: '0',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '0',thirdPartyInsured: '',carDamageInsured: '',rebateRatio: '',createTime:''},//车损不为0，三者最保额档
+            {rebateType: '1',usageType: '1',thirdPartyInsured: '',carDamageInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '2',thirdPartyInsured: '',carDamageInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '3',thirdPartyInsured: '',carDamageInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '4',thirdPartyInsured: '',carDamageInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '5',thirdPartyInsured: '',carDamageInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '0',thirdPartyInsured: '',rebateRatio: '',createTime:''},//三者最最小保额档
+            {rebateType: '1',usageType: '1',thirdPartyInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '2',thirdPartyInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '3',thirdPartyInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '4',thirdPartyInsured: '',rebateRatio: '',createTime:''},//
+            {rebateType: '1',usageType: '5',thirdPartyInsured: '',rebateRatio: '',createTime:''},//
+          ],
+          //新车返点比
+          newVehicle:{rebateType:'3',renewalType: '1',rebateRatio: '',createTime:''},//
+
+          //次新车返点比
+          secondNewVehicle:{rebateType: '3',renewalType: '2',rebateRatio: '',createTime:''},//
+
+          //竟回返点比
+          contest:{rebateType: '4',renewalType: '4',rebateRatio: '',createTime:''},//
+
+          //过户返点比
+          transfer:{rebateType: '5',is_transfer: '1',rebateRatio: '',createTime:''},//
+
+          //交叉返点比
+          overlapping: {rebateType: '6',is_transfer: '1',rebateRatio: '',createTime:''},//
+
+          // 跟单零返点比
+          documentaryZero:{rebateType: '7',signFee: '0',rebateRatio: '',createTime:''},//
+        },
         description: '返点比例管理页面',
         // 表头
         columns: [
@@ -128,6 +348,12 @@
               return parseInt(index)+1;
             }
           },
+          {
+            title:'创建时间',
+            align:"center",
+            dataIndex: 'createTime'
+          },
+
           {
             title:'返点类型',
             align:"center",
@@ -213,10 +439,47 @@
       },
     },
     methods: {
+      handleOk(){
+
+      },
+      handleCancel() {
+
+      },
       initDictConfig(){
+      },
+      //批量设置
+      handleBatchSetting(){
+        this.isShowBatchSettings = true;
+        this.$refs.modalForm.title = "批量新增";
+        let obj =[];
+        let rebateType = '';
+        //基础险比例
+        if(rebateType == '0'){
+          obj.push({rebateType: '0',usageType: '0',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '0',usageType: '1',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '0',usageType: '2',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '0',usageType: '3',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '0',usageType: '4',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '0',usageType: '5',rebateRatio: '',createTime:''})
+        }
+        //三者险比例
+        if(rebateType == '1'){
+          obj.push({rebateType: '1',usageType: '0',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '1',usageType: '1',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '1',usageType: '2',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '1',usageType: '3',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '1',usageType: '4',rebateRatio: '',createTime:''})
+          obj.push({rebateType: '1',usageType: '5',rebateRatio: '',createTime:''})
+        }
+        //新车比例
+        if(rebateType == '2'){
+          obj.push({rebateType: '1',renewalType: '1',rebateRatio: '',createTime:''})
+        }
+        this.rebates = obj;
       },
       getSuperFieldList(){
         let fieldList=[];
+        fieldList.push({type:'date',value:'createTime',text:'创建日期',dictCode:''})
         fieldList.push({type:'int',value:'rebateRatioType',text:'返点类型',dictCode:'rebate_ratio_type'})
         fieldList.push({type:'string',value:'isTransfer',text:'是否过户',dictCode:'is_transfer'})
         fieldList.push({type:'string',value:'renewalType',text:'续保类型',dictCode:'renewal_symbol'})

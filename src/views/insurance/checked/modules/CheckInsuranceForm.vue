@@ -30,7 +30,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="业务员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="salesman">
-              <a-input v-model="model.salesman" placeholder="请输入业务员"  ></a-input>
+              <a-input v-model="model.salesman" placeholder="请输入业务员" disabled ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -49,6 +49,11 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
+            <a-form-model-item label="车牌号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vehicleLicense">
+              <a-input v-model="model.vehicleLicense" placeholder="请输入车牌号" disabled ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
             <a-form-model-item label="交强险保单号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="compulsoryInsurCode">
               <a-input v-model="model.compulsoryInsurCode" placeholder="请输入交强险保单号" disabled ></a-input>
             </a-form-model-item>
@@ -61,6 +66,16 @@
           <a-col :span="24">
             <a-form-model-item label="交强险保费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="compulsoryInsurFee">
               <a-input-number v-model="model.compulsoryInsurFee" placeholder="请输入交强险保费" style="width: 100%" disabled/>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="商业险保费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="commercialInsurFee">
+              <a-input-number v-model="model.commercialInsurFee" placeholder="请输入商业险保费" style="width: 100%" disabled/>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="车船税" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vehicleVesselTax">
+              <a-input-number v-model="model.vehicleVesselTax" placeholder="请输入车船税" style="width: 100%" disabled/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -171,21 +186,6 @@
           <a-col :span="24">
             <a-form-model-item label="返点收取方式" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="rebateWay">
               <j-dict-select-tag type="list" v-model="model.rebateWay" dictCode="rebate_way" placeholder="请选择返点收取方式" />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="车牌号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vehicleLicense">
-              <a-input v-model="model.vehicleLicense" placeholder="请输入车牌号" disabled ></a-input>
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="商业险保费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="commercialInsurFee">
-              <a-input-number v-model="model.commercialInsurFee" placeholder="请输入商业险保费" style="width: 100%" disabled/>
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="车船税" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="vehicleVesselTax">
-              <a-input-number v-model="model.vehicleVesselTax" placeholder="请输入车船税" style="width: 100%" disabled/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">

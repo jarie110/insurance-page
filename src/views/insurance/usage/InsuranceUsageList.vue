@@ -122,6 +122,11 @@
             }
           },
           {
+            title:'出单日',
+            align:"center",
+            dataIndex: 'insuranceDate'
+          },
+          {
             title:'使用性质类型',
             align:"center",
             dataIndex: 'usageType'
@@ -170,6 +175,7 @@
       },
       getSuperFieldList(){
         let fieldList=[];
+        fieldList.push({type:'date',value:'insuranceDate',text:'出单日'})
         fieldList.push({type:'int',value:'usageType',text:'使用性质类型'})
         fieldList.push({type:'string',value:'usageName',text:'使用性质名称'})
         fieldList.push({type:'int',value:'usagePercent',text:'用途返点比例'})
