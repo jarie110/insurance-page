@@ -136,7 +136,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="是否返佣" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="isPayCommission">
-              <j-dict-select-tag type="list" v-model="model.isPayCommission" dictCode="is_paid_rebate" placeholder="请选择是否返佣" />
+              <j-dict-select-tag type="list" v-model="model.isPayCommission" dictCode="is_paid_rebate" placeholder="请选择是否返佣"/>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">

@@ -14,9 +14,9 @@
 
           <a-col :xl="10" :lg="11" :md="12" :sm="24">
             <a-form-item label="录入日期">
-              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="queryParam.createTime_begin"></j-date>
+              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
               <span class="query-group-split-cust"></span>
-              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="queryParam.createTime_end"></j-date>
+              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
             </a-form-item>
           </a-col>
 

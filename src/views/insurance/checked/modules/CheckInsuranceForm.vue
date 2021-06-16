@@ -175,7 +175,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="是否返点" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="isRebate">
-              <j-dict-select-tag type="list" v-model="model.isRebate" dictCode="is_paid_rebate" placeholder="请选择是否返点" disabled/>
+              <j-dict-select-tag type="list" v-model="model.isRebate" dictCode="is_paid_rebate" placeholder="请选择是否返点" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">

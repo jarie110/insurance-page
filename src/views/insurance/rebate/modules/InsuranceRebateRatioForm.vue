@@ -72,6 +72,7 @@
   import { httpAction, getAction } from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
   import JDictSelectTag from "@comp/dict/JDictSelectTag";
+  import { ajaxGetDictItems } from '@/api/api'
   export default {
     name: 'InsuranceRebateRatioForm',
     components: {
@@ -87,6 +88,8 @@
     },
     data () {
       return {
+        isShowDIV: false,
+        usageTypeList:{},
         isShow: false,
         isTransferValue: '',
         isDisableIsTransfer:true,
@@ -140,10 +143,26 @@
       this.modelDefault = JSON.parse(JSON.stringify(this.model));
     },
     methods: {
-      // add () {
-      //   // this.edit(this.modelDefault);
-      // },
+      onDateChange: function (value, dateString) {
+        console.log(dateString[0],dateString[1]);
+        this.queryParam.createTime_begin=dateString[0];
+        this.queryParam.createTime_end=dateString[1];
+      },
+      onDateOk(value) {
+        console.log(value);
+      },
+      add () {
+        // this.edit(this.modelDefault);
+      },
       changeRebate(val){
+        var str='insurance_usage,usage_name,usage_type';
+        //查询字典
+        ajaxGetDictItems(str, null).then((res) => {
+          if (res.success) {
+            this.usageTypeList=res.result;
+          }
+        })
+
         // console.log(val);
         if(val == 0){//商业险返点
           this.isShowUsage = true;
@@ -308,7 +327,6 @@
               that.confirmLoading = false;
             })
           }
-
         })
       },
     }
