@@ -153,18 +153,21 @@
                 </a-form-item>
               </a-col>
               车损险不为0返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatio"></a-input>
+
+
               <a-col :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="三者保额档">
-                  <a-input placeholder="请输入三者保额档" v-model="thirdPartyInsured"></a-input>
+                  <a-input placeholder="请输入三者保额档" v-model="thirdPartyInsuredZero"></a-input>
                 </a-form-item>
               </a-col>
               <a-col :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="车损保额档">
-                  <a-input placeholder="等于0" disabled></a-input>
+                  <a-input placeholder="等于0" :value="0" disabled></a-input>
                 </a-form-item>
               </a-col>
-
               车损险为0返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatioZero"></a-input>
+
+
               <a-col :span="24">
                 <a-range-picker @change="onChange" />
               </a-col>
@@ -332,7 +335,8 @@
     data() {
       return {
         rebateType: 0,
-        rebateRatioZero: 0,
+        rebateRatioZero: 0,//三者险中车损险为0
+        thirdPartyInsuredZero: '',//三者险中车损险为0时的三者保额档
         thirdPartyInsured: '',//三者保额档
         carDamageInsured: '' ,//车损险保额档
         rebateRatio: '',//返点比例
@@ -358,6 +362,8 @@
           rebateType: this.rebateType,
           usageType: '',
           rebateRatio: this.rebateRatio,
+          rebateRatioZero: this.rebateRatioZero,
+          thirdPartyInsuredZero: this.thirdPartyInsuredZero,
 
           createTimeBegin: this.createTime_begin,
           createTimeEnd: this.createTime_end
