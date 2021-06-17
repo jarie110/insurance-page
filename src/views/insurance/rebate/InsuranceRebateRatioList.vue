@@ -124,15 +124,13 @@
       <a-row :gutter="24" v-if="showIndex == '0'">
         <a-form-item label="商业基础险">
           <a-col :xl="8" :lg="7" :md="8" :sm="24">
-            <a-form-item label="使用性质" v-for="item in usages">
+            <a-form-item label="使用性质" v-for="(item,index) in usages">
               <a-input :value="item.text" disabled></a-input>
-              返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatio"></a-input>
+              返点比例：<a-input placeholder="请输入返点比例" v-model="item.rebateRatio"></a-input>
               <a-col :span="24">
-                <a-form-item label="录入日期">
-                  <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-                  <span class="query-group-split-cust"></span>
-                  <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-                </a-form-item>
+
+                <a-range-picker @change="onChange" />
+
               </a-col>
             </a-form-item>
           </a-col>
@@ -155,8 +153,6 @@
                 </a-form-item>
               </a-col>
               车损险不为0返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatio"></a-input>
-
-
               <a-col :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="三者保额档">
                   <a-input placeholder="请输入三者保额档" v-model="thirdPartyInsured"></a-input>
@@ -167,13 +163,10 @@
                   <a-input placeholder="等于0" disabled></a-input>
                 </a-form-item>
               </a-col>
+
               车损险为0返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatioZero"></a-input>
               <a-col :span="24">
-                <a-form-item label="录入日期">
-                  <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-                  <span class="query-group-split-cust"></span>
-                  <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-                </a-form-item>
+                <a-range-picker @change="onChange" />
               </a-col>
             </a-form-item>
           </a-col>
@@ -191,11 +184,7 @@
           </a-col>
 
           <a-col :span="24">
-            <a-form-item label="录入日期">
-              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-              <span class="query-group-split-cust"></span>
-              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-            </a-form-item>
+            <a-range-picker @change="onChange" />
           </a-col>
         </a-form-item>
       </a-row>
@@ -209,11 +198,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="录入日期">
-              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-              <span class="query-group-split-cust"></span>
-              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-            </a-form-item>
+            <a-range-picker @change="onChange" />
           </a-col>
         </a-form-item>
       </a-row>
@@ -227,11 +212,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="录入日期">
-              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-              <span class="query-group-split-cust"></span>
-              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-            </a-form-item>
+            <a-range-picker @change="onChange" />
           </a-col>
         </a-form-item>
       </a-row>
@@ -245,11 +226,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="录入日期">
-              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-              <span class="query-group-split-cust"></span>
-              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-            </a-form-item>
+            <a-range-picker @change="onChange" />
           </a-col>
         </a-form-item>
       </a-row>
@@ -273,11 +250,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="录入日期">
-              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-              <span class="query-group-split-cust"></span>
-              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-            </a-form-item>
+            <a-range-picker @change="onChange" />
           </a-col>
         </a-form-item>
       </a-row>
@@ -291,11 +264,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="录入日期">
-              <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-              <span class="query-group-split-cust"></span>
-              <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-            </a-form-item>
+            <a-range-picker @change="onChange" />
           </a-col>
         </a-form-item>
       </a-row>
@@ -306,13 +275,6 @@
             <a-form-item label="使用性质" v-for="item in usages">
               <a-input :value="item.text" disabled></a-input>
               返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatio"></a-input>
-              <a-col :span="24">
-                <a-form-item label="录入日期">
-                  <j-date placeholder="请选择开始日期" class="query-group-cust" v-model="createTime_begin"></j-date>
-                  <span class="query-group-split-cust"></span>
-                  <j-date placeholder="请选择结束日期" class="query-group-cust" v-model="createTime_end"></j-date>
-                </a-form-item>
-              </a-col>
               <a-col  :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="司机责任险保额">
                   <a-input v-model="batchSettingsData" placeholder="司机责任险保额"></a-input>
@@ -328,6 +290,9 @@
                   <a-input v-model="batchSettingsData" placeholder="座位保奖金"></a-input>
                 </a-form-item>
               </a-col>
+              <a-col :span="24">
+                <a-range-picker @change="onChange" />
+              </a-col>
             </a-form-item>
           </a-col>
 
@@ -340,7 +305,7 @@
         <a-button key="back" @click="handleCancel">
          取消
         </a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="handleOk()">
+        <a-button key="submit" type="primary" :loading="loading" @click="submitOk">
          提交
         </a-button>
       </template>
@@ -366,8 +331,8 @@
     },
     data() {
       return {
-        rebateType: '',
-        rebateRatioZero: '',
+        rebateType: 0,
+        rebateRatioZero: 0,
         thirdPartyInsured: '',//三者保额档
         carDamageInsured: '' ,//车损险保额档
         rebateRatio: '',//返点比例
@@ -376,7 +341,6 @@
         showIndex: '',
         usages: [],//
         rebates: [],
-        // usageType: '',
         isShowBatchSettings: false,
         description: '返点比例管理页面',
         obj: [],
@@ -384,10 +348,22 @@
         BasicInsuranceRebate: {
           rebateType: this.rebateType,
           usageType: '',
-          rebateRatio: '',
+          rebateRatio: this.rebateRatio,
           createTimeBegin: this.createTime_begin,
           createTimeEnd: this.createTime_end
         },
+
+        //三者险数据类型
+        thirdPartyAbility:{
+          rebateType: this.rebateType,
+          usageType: '',
+          rebateRatio: this.rebateRatio,
+
+          createTimeBegin: this.createTime_begin,
+          createTimeEnd: this.createTime_end
+        },
+
+
 
         // 表头
         columns: [
@@ -487,10 +463,10 @@
       },
     },
     methods: {
-      onDateChange: function (value, dateString) {
-        console.log(dateString[0],dateString[1]);
-        this.createTime_begin=dateString[0];
-        this.createTime_end=dateString[1];
+      onChange(date,dateString) {
+        this.createTime_begin = dateString[0];
+        this.createTime_end = dateString[1];
+        console.log(date, dateString);
       },
       showrebate(item){
         console.log(item);
@@ -500,20 +476,38 @@
         ajaxGetDictItems(str, null).then((res) => {
           if (res.success) {
             this.usages = res.result;
+            this.usages.forEach(v => {
+              v.rebateRatio = ''
+              v.createTime_begin = this.createTime_begin
+              v.createTime_end = this.createTime_end
+            })
             console.log(this.usages);
             // this.options = res.result;
           }
         })
       },
-      handleOk() {
+      //提交
+      submitOk(){
         if(this.rebateType == 0){
         //  商业基础险类型
           this.usages.forEach(usageType =>{
-            this.obj.push()
+            this.BasicInsuranceRebate.usageType = usageType;
+            this.BasicInsuranceRebate.
+            this.obj.push(this.BasicInsuranceRebate);
           })
-
+          console.log(this.obj);
         }
 
+        if(this.rebateType == 1){
+          //  三者险类型
+          this.usages.forEach(usageType =>{
+            this.thirdPartyAbility.usageType = usageType;
+            this.thirdPartyAbility.rebateType = this.rebateType;
+
+            this.obj.push(this.thirdPartyAbility);
+          })
+          console.log(this.obj);
+        }
       },
       handleCancel() {
         this.isShowBatchSettings = false;
