@@ -86,7 +86,7 @@ module.exports = {
         }
       }, */
       '/': {
-        target: 'http://localhost:8080/insurance', // 请求本地 需要jeecg-boot后台项目
+        target: 'http://192.168.0.105:8080/insurance', // 请求本地 需要jeecg-boot后台项目
         ws: false,
         changeOrigin: true
       }
