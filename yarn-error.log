@@ -2,19 +2,19 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  E:\jarie\insurance\insurance-page\node_modules\.bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\VisualSVN Server\bin;JAVA_HOME\bin;C:\Program Files\nodejs\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;E:\jarie\apache-maven-3.8.1-bin\apache-maven-3.8.1\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Administrator\AppData\Roaming\npm
+  E:\jarie_work\insurance\insurance-page\node_modules\.bin;C:\Program Files (x86)\NetSarang\Xshell 6\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;E:\oracle\product\11.2.0\dbhome_1\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;E:\apache-tomcat-8.5.42\bin;E:\apache-maven-3.6.2\bin;D:\jarie\nexus-2.14.13-01-bundle\nexus-2.14.13-01\bin;D:\install\mysql-5.7.26-winx64\bin;C:\Program Files (x86)\Rational\common;C:\WINDOWS\System32\OpenSSH\;E:\apache-cxf-3.2.6\bin;C:\Program Files\Java\jdk-12.0.2\bin;C:\Program Files\Java\jdk-12.0.2\jre\bin;C:\Program Files\nodejs\;C:\Program Files\TortoiseSVN\bin;%SHPLAYER%;D:\jarie\nexus-2.14.13-01-bundle\nexus-2.14.13-01\bin；E:\apache-tomcat-8.5.42\bin；D:\install\mysql-5.7.26-winx64\.bin;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Users\Administrator\AppData\Roaming\npm
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  12.13.1
+  14.16.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile 'C:\Users\Administrator\AppData\Local\Yarn\Cache\v6\npm-ms-2.1.2-d09d1f357b443f493382a8eb3ccd183872ae6009-integrity\node_modules\ms\index.js' -> 'E:\jarie\insurance\insurance-page\node_modules\@babel\core\node_modules\ms\index.js'
+  Error: EPERM: operation not permitted, mkdir 'E:\jarie_work\insurance\insurance-page\node_modules\postcss-calc\node_modules\chalk\node_modules'
 
 npm manifest: 
   {

@@ -80,14 +80,7 @@
               phone: this.model.phone,
               smscode: this.model.captcha
             }
-            postAction("/sys/user/phoneVerification", params).then((res) => {
-              if (res.success) {
-                console.log(res);
-                let userList = {
-                  username: res.result.username,
-                  phone: params.phone,
-                  smscode: res.result.smscode
-                };
+            postAction
                 setTimeout(function () {
                   that.$emit('nextStep', userList)
                 }, 0)

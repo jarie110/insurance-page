@@ -124,9 +124,9 @@
       <a-row :gutter="24" v-if="showIndex == '0'">
         <a-form-item label="商业基础险">
           <a-col :xl="8" :lg="7" :md="8" :sm="24">
-            <a-form-item label="使用性质" v-for="(item,index) in usages">
+            <a-form-item label="使用性质" v-for="item in usages">
               <a-input :value="item.text" disabled></a-input>
-              返点比例：<a-input placeholder="请输入返点比例" v-model="item.rebateRatio"></a-input>
+              返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatio"></a-input>
               <a-col :span="24">
 
                 <a-range-picker @change="onChange" />
@@ -162,7 +162,7 @@
               </a-col>
               <a-col :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="车损保额档">
-                  <a-input placeholder="等于0" :value="0" disabled></a-input>
+                  <a-input placeholder="请输入0" v-model="carDamageInsuredZero" disabled></a-input>
                 </a-form-item>
               </a-col>
               车损险为0返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatioZero"></a-input>
@@ -227,6 +227,9 @@
             <a-form-item label="返点比例">
               <a-input v-model="rebateRatio" placeholder="请输入返点比例"></a-input>
             </a-form-item>
+            <a-form-item label="过户">
+              <a-input v-model="isTransfer" placeholder="已过户" disabled></a-input>
+            </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-range-picker @change="onChange" />
@@ -239,12 +242,12 @@
         <a-form-item label="交叉返点">
           <a-col :xl="8" :lg="7" :md="8" :sm="24">
             <a-form-item label="是否过户">
-              <a-input  placeholder="未过户" disabled></a-input>
+              <a-input  placeholder="未过户" v-model="isTransfer" disabled></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="8" :lg="7" :md="8" :sm="24">
             <a-form-item label="续保标志">
-              <a-input placeholder="市公司续保" disabled></a-input>
+              <a-input placeholder="市公司续保" v-model="renewalName" disabled></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="8" :lg="7" :md="8" :sm="24">
@@ -262,6 +265,9 @@
       <a-row :gutter="24" v-if="showIndex == '7'">
         <a-form-item label="跟单0返点">
           <a-col :xl="8" :lg="7" :md="8" :sm="24">
+            <a-form-item label="手续费">
+              <a-input v-model="signFee" placeholder="手续费为0"></a-input>
+            </a-form-item>
             <a-form-item label="返点比例">
               <a-input v-model="rebateRatio" placeholder="请输入返点比例"></a-input>
             </a-form-item>
@@ -280,17 +286,17 @@
               返点比例：<a-input placeholder="请输入返点比例" v-model="rebateRatio"></a-input>
               <a-col  :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="司机责任险保额">
-                  <a-input v-model="batchSettingsData" placeholder="司机责任险保额"></a-input>
+                  <a-input v-model="driverLiabilityInsured" placeholder="司机责任险保额"></a-input>
                 </a-form-item>
               </a-col>
               <a-col :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="乘客责任险保额">
-                  <a-input v-model="batchSettingsData" placeholder="乘客责任险保额"></a-input>
+                  <a-input v-model="passengerLiabilityInsured" placeholder="乘客责任险保额"></a-input>
                 </a-form-item>
               </a-col>
               <a-col  :xl="12" :lg="12" :md="12" :sm="24">
                 <a-form-item label="奖金">
-                  <a-input v-model="batchSettingsData" placeholder="座位保奖金"></a-input>
+                  <a-input v-model="bonus" placeholder="座位保奖金"></a-input>
                 </a-form-item>
               </a-col>
               <a-col :span="24">
@@ -334,43 +340,6 @@
     },
     data() {
       return {
-        rebateType: 0,
-        rebateRatioZero: 0,//三者险中车损险为0
-        thirdPartyInsuredZero: '',//三者险中车损险为0时的三者保额档
-        thirdPartyInsured: '',//三者保额档
-        carDamageInsured: '' ,//车损险保额档
-        rebateRatio: '',//返点比例
-        createTime_begin: '',//开始时间
-        createTime_end: '',//结束时间
-        showIndex: '',
-        usages: [],//
-        rebates: [],
-        isShowBatchSettings: false,
-        description: '返点比例管理页面',
-        obj: [],
-        //商业基础险类型数据
-        BasicInsuranceRebate: {
-          rebateType: this.rebateType,
-          usageType: '',
-          rebateRatio: this.rebateRatio,
-          createTimeBegin: this.createTime_begin,
-          createTimeEnd: this.createTime_end
-        },
-
-        //三者险数据类型
-        thirdPartyAbility:{
-          rebateType: this.rebateType,
-          usageType: '',
-          rebateRatio: this.rebateRatio,
-          rebateRatioZero: this.rebateRatioZero,
-          thirdPartyInsuredZero: this.thirdPartyInsuredZero,
-
-          createTimeBegin: this.createTime_begin,
-          createTimeEnd: this.createTime_end
-        },
-
-
-
         // 表头
         columns: [
           {
@@ -458,6 +427,137 @@
         },
         dictOptions: {},
         superFieldList: [],
+
+
+        rebateType: '',
+
+        thirdPartyInsuredZero: '',//三者险中车损险为0时的三者保额档
+        thirdPartyInsured: '',//三者保额档
+
+        carDamageInsured: '',//车损险保额档
+        carDamageInsuredZero: 0,
+
+        renewalName: '市公司续保',
+        rebateRatio: '',//返点比例
+        rebateRatioZero: '',//三者险中车损险为0
+        isTransfer: 1,
+        signFee: 0,
+        bonus: 0,
+        driverLiabilityInsured: '',
+        passengerLiabilityInsured: '',
+        createTime_begin: '',//开始时间
+        createTime_end: '',//结束时间
+        showIndex: '',
+        usages: [],//
+        rebates: [],
+        isShowBatchSettings: false,
+        description: '返点比例管理页面',
+        obj: [],
+        //商业基础险类型数据
+        BasicInsuranceRebate: {
+          rebateType: '',
+          usageType: '',
+          rebateRatio: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+
+        //三者险数据类型(车损险不为0)
+        thirdPartyAbility: {
+          rebateType: '',
+          usageType: '',
+          rebateRatio: '',
+          carDamageInsured: '',
+          thirdPartyInsured: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //三者险数据类型(车损险为0)
+        thirdPartyAbilityZero: {
+          rebateType: '',
+          rebateRatioZero: '',
+          usageType: '',
+          thirdPartyInsuredZero: '',
+          carDamageInsuredZero: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //次新车返点数据
+        lastYearCar: {
+          rebateType: '',
+          rebateRatio: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //新车返点数据
+        newCar: {
+          rebateType: '',
+          rebateRatio: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //  竞回返点数据
+        contestRebate: {
+          rebateType: '',
+          rebateRatio: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //  过户返点数据
+        transferRebate: {
+          rebateType: '',
+          rebateRatio: '',
+          isTransfer: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //  交叉返点比数据
+        overlappingRebate: {
+          rebateType: '',
+          rebateRatio: '',
+          isTransfer: '',
+          renewalName: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //跟单0比例数据
+        followUpRebate: {
+          rebateType: '',
+          rebateRatio: '',
+          signFee: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //座位保数据 （司机险 >= 20000 ）
+        seatRebate: {
+          rebateType: '',
+          usageType: '',
+          rebateRatio: '',
+          driverLiabilityInsured: '',
+          passengerLiabilityInsured: '',
+          bonus: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+
+        //座位保数据（司机险 < 20000）
+        seatRebateLT: {
+          rebateType: '',
+          usageType: '',
+          rebateRatio: '',
+          driverLiabilityInsured: '',
+          passengerLiabilityInsured: '',
+          bonus: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        },
+        //其他返点类型
+        OtherRebate: {
+          rebateType: '',
+          rebateRatio: '',
+          createTimeBegin: "",
+          createTimeEnd: ""
+        }
       }
     },
     created() {
@@ -469,51 +569,161 @@
       },
     },
     methods: {
-      onChange(date,dateString) {
+      onChange(date, dateString) {
         this.createTime_begin = dateString[0];
         this.createTime_end = dateString[1];
         console.log(date, dateString);
       },
-      showrebate(item){
+      showrebate(item) {//字典查询使用性质
         console.log(item);
         this.showIndex = item.value
-      //  查询所有车辆使用性质
-        var str='insurance_usage,usage_name,usage_type';
+        //  查询所有车辆使用性质
+        var str = 'insurance_usage,usage_name,usage_type';
         ajaxGetDictItems(str, null).then((res) => {
           if (res.success) {
             this.usages = res.result;
-            this.usages.forEach(v => {
-              v.rebateRatio = ''
-              v.createTime_begin = this.createTime_begin
-              v.createTime_end = this.createTime_end
-            })
+            // this.usages.forEach(v => {
+            //   v.rebateRatio = ''
+            //   v.createTime_begin = this.createTime_begin
+            //   v.createTime_end = this.createTime_end
+            // })
             console.log(this.usages);
             // this.options = res.result;
           }
         })
       },
       //提交
-      submitOk(){
-        if(this.rebateType == 0){
-        //  商业基础险类型
-          this.usages.forEach(usageType =>{
+      submitOk() {
+        if (this.rebateType == 0) {
+          //  商业基础险类型
+          this.usages.forEach(usageType => {
             this.BasicInsuranceRebate.usageType = usageType;
-            this.BasicInsuranceRebate.
-            this.obj.push(this.BasicInsuranceRebate);
+            this.BasicInsuranceRebate.rebateType = this.rebateType,
+              this.BasicInsuranceRebate.rebateRatio = this.rebateRatio,
+
+              this.obj.push(this.BasicInsuranceRebate);
           })
-          console.log(this.obj);
         }
 
-        if(this.rebateType == 1){
+        if (this.rebateType == 1) {
           //  三者险类型
-          this.usages.forEach(usageType =>{
-            this.thirdPartyAbility.usageType = usageType;
-            this.thirdPartyAbility.rebateType = this.rebateType;
-
-            this.obj.push(this.thirdPartyAbility);
+          this.usages.forEach(usageType => {
+            //车损险为0
+            if (this.carDamageInsured == 0) {
+              this.thirdPartyAbilityZero.usageType = usageType;
+              this.thirdPartyAbilityZero.thirdPartyInsuredZero = thirdPartyInsuredZero;
+              this.thirdPartyAbilityZero.carDamageInsuredZero = this.carDamageInsuredZero;
+              this.thirdPartyAbilityZero.rebateRatioZero = this.rebateRatioZero;
+              this.thirdPartyAbilityZero.rebateType = this.rebateType;
+              this.thirdPartyAbilityZero.createTimeBegin = this.createTime_begin;
+              this.thirdPartyAbilityZero.createTimeEnd = this.createTime_end;
+              this.obj.push(this.thirdPartyAbilityZero);
+            } else {
+              this.thirdPartyAbilityZero.usageType = usageType;
+              this.thirdPartyAbilityZero.thirdPartyInsured = thirdPartyInsured;
+              this.thirdPartyAbilityZero.carDamageInsured = this.carDamageInsured;
+              this.thirdPartyAbilityZero.rebateRatio = this.rebateRatio;
+              this.thirdPartyAbilityZero.rebateType = this.rebateType;
+              this.thirdPartyAbilityZero.createTimeBegin = this.createTime_begin;
+              this.thirdPartyAbilityZero.createTimeEnd = this.createTime_end;
+              this.obj.push(this.thirdPartyAbility);
+            }
           })
-          console.log(this.obj);
         }
+        //次新车返点
+        if (this.rebateType == 2) {
+          this.lastYearCar.rebateType = this.rebateType;
+          this.lastYearCar.rebateRatio = this.rebateRatio;
+          this.lastYearCar.createTimeBegin = this.createTime_begin;
+          this.lastYearCar.createTimeEnd = this.createTime_end;
+          this.obj.push(this.lastYearCar);
+        }
+        // 新车返点
+        if (this.rebateType == 3) {
+          this.newCar.rebateType = this.rebateType;
+          this.newCar.rebateRatio = this.rebateRatio;
+          this.newCar.createTimeBegin = this.createTime_begin;
+          this.newCar.createTimeEnd = this.createTime_end;
+          this.obj.push(this.newCar);
+        }
+        //竞回返点比
+        if (this.rebateType == 4) {
+          this.contestRebate.rebateType = this.rebateType;
+          this.contestRebate.rebateRatio = this.rebateRatio;
+          this.contestRebate.createTimeBegin = this.createTime_begin;
+          this.contestRebate.createTimeEnd = this.createTime_end;
+          this.obj.push(this.contestRebate);
+        }
+        //过户返点比
+        if (this.rebateType == 5) {
+          this.transferRebate.rebateType = this.rebateType;
+          this.transferRebate.rebateRatio = this.rebateRatio;
+          this.transferRebate.isTransfer = this.isTransfer;
+          this.transferRebate.createTimeBegin = this.createTime_begin;
+          this.transferRebate.createTimeEnd = this.createTime_end;
+          this.obj.push(this.transferRebate);
+        }
+
+        //  交叉返点比
+        if (this.rebateType == 6) {
+          this.overlappingRebate.rebateType = this.rebateType;
+          this.overlappingRebate.rebateRatio = this.rebateRatio;
+          this.overlappingRebate.isTransfer = 0;
+          this.overlappingRebate.renewalName = this.renewalName;
+
+          this.overlappingRebate.createTimeBegin = this.createTime_begin;
+          this.overlappingRebate.createTimeEnd = this.createTime_end;
+          this.obj.push(this.transferRebate);
+        }
+        //跟单0返点
+        if (this.rebateType == 7) {
+          this.followUpRebate.rebateType = this.rebateType;
+          this.followUpRebate.rebateRatio = this.rebateRatio;
+          this.followUpRebate.signFee = this.signFee;
+          this.followUpRebate.createTimeBegin = this.createTime_begin;
+          this.followUpRebate.createTimeEnd = this.createTime_end;
+          this.obj.push(this.followUpRebate);
+        }
+        //座位保返点比
+        if (this.rebateType == 8) {
+          if (this.driverLiabilityInsured <= 20000) {
+            this.seatRebateLT.driverLiabilityInsured = -4;
+            this.seatRebateLT.rebateType = this.rebateType;
+            this.seatRebateLT.driverLiabilityInsured = this.driverLiabilityInsured;
+            this.seatRebateLT.passengerLiabilityInsured = this.passengerLiabilityInsured;
+            this.seatRebateLT.bonus = 0,
+              this.seatRebateLT.createTimeBegin = this.createTime_begin;
+            this.seatRebateLT.createTimeEnd = this.createTime_end;
+            this.obj.push(this.seatRebateLT);
+          } else {
+            this.seatRebate.rebateType = this.rebateType;
+            this.seatRebate.driverLiabilityInsured = this.driverLiabilityInsured;
+            this.seatRebate.passengerLiabilityInsured = this.passengerLiabilityInsured;
+            this.seatRebateLT.bonus = this.bonus;
+            this.seatRebate.createTimeBegin = this.createTime_begin;
+            this.seatRebate.createTimeEnd = this.createTime_end;
+            this.seatRebate.rebateRatio = this.rebateRatio;
+            this.obj.push(this.seatRebate);
+          }
+        }
+        //其他返点比
+        if (this.rebateType == 9) {
+          this.OtherRebate.rebateType = this.rebateType;
+          this.OtherRebate.rebateRatio = this.rebateRatio;
+          this.OtherRebate.createTimeBegin = this.createTime_begin;
+          this.OtherRebate.createTimeEnd = this.createTime_end;
+          this.obj.push(this.OtherRebate);
+        }
+        //发起请求
+        postAction("/rebate/insuranceRebateRatio/insertBatch", this.obj).then((res) => {
+
+          if(res.success){
+            this.$message.success(res.message)
+          }else{
+            this.$message.warning(res.message)
+          }
+        })
+        console.log(this.obj);
       },
       handleCancel() {
         this.isShowBatchSettings = false;
@@ -521,24 +731,10 @@
       initDictConfig() {
       },
       //显示所有返点类型
-      getAllRebate(e) {
-        // getAction(this.url, param).then(res => {
-        //   if (res.success && res.result) {
-        //     for (let i of res.result) {
-        //       i.value = i.key
-        //       if (i.leaf == false) {
-        //         i.isLeaf = false
-        //       } else if (i.leaf == true) {
-        //         i.isLeaf = true
-        //       }
-        //     }
-        //     this.treeData = [...res.result]
-        //   } else {
-        //     console.log("树一级节点查询结果-else", res)
-        //   }
-        var str='rebate_ratio_type';
+      getAllRebate() {//字典查询返点类型
+        var str = 'rebate_ratio_type';
         ajaxGetDictItems(str, null).then((res) => {
-          console.log(res,557);
+          console.log(res, 557);
           if (res.success) {
             // })
             console.log(res);
@@ -547,32 +743,32 @@
             // this.options = res.result;
           }
         })
-    },
-    //批量设置
-    handleBatchSetting() {
-      this.isShowBatchSettings = true;
-    },
-    getSuperFieldList() {
-      let fieldList = [];
-      fieldList.push({type: 'date', value: 'createTime', text: '创建日期', dictCode: ''})
-      fieldList.push({type: 'int', value: 'rebateRatioType', text: '返点类型', dictCode: 'rebate_ratio_type'})
-      // fieldList.push({type: 'string', value: 'isTransfer', text: '是否过户', dictCode: 'is_transfer'})
-      // fieldList.push({type: 'string', value: 'renewalType', text: '续保类型', dictCode: 'renewal_symbol'})
-      fieldList.push({
-        type: 'string',
-        value: 'usageType',
-        text: '使用性质',
-        dictCode: 'insurance_usage,usage_name,usage_type'
-      })
-      fieldList.push({type: 'string', value: 'thirdPartyInsured', text: '三责保额档', dictCode: ''})
-      fieldList.push({type: 'string', value: 'carDamageInsured', text: '车损险保额档', dictCode: ''})
-      fieldList.push({type: 'string', value: 'driverLiabilityInsured', text: '司机责任险保额档', dictCode: ''})
-      fieldList.push({type: 'string', value: 'passengerLiability', text: '乘客责任险保额档', dictCode: ''})
-      fieldList.push({type: 'double', value: 'rebateRatio', text: '返点比例', dictCode: ''})
-      fieldList.push({type: 'double', value: 'bonus', text: '奖金', dictCode: ''})
-      this.superFieldList = fieldList
+      },
+      //批量设置
+      handleBatchSetting() {
+        this.isShowBatchSettings = true;
+      },
+      getSuperFieldList() {
+        let fieldList = [];
+        fieldList.push({type: 'date', value: 'createTime', text: '创建日期', dictCode: ''})
+        fieldList.push({type: 'int', value: 'rebateRatioType', text: '返点类型', dictCode: 'rebate_ratio_type'})
+        // fieldList.push({type: 'string', value: 'isTransfer', text: '是否过户', dictCode: 'is_transfer'})
+        // fieldList.push({type: 'string', value: 'renewalType', text: '续保类型', dictCode: 'renewal_symbol'})
+        fieldList.push({
+          type: 'string',
+          value: 'usageType',
+          text: '使用性质',
+          dictCode: 'insurance_usage,usage_name,usage_type'
+        })
+        fieldList.push({type: 'string', value: 'thirdPartyInsured', text: '三责保额档', dictCode: ''})
+        fieldList.push({type: 'string', value: 'carDamageInsured', text: '车损险保额档', dictCode: ''})
+        fieldList.push({type: 'string', value: 'driverLiabilityInsured', text: '司机责任险保额档', dictCode: ''})
+        fieldList.push({type: 'string', value: 'passengerLiability', text: '乘客责任险保额档', dictCode: ''})
+        fieldList.push({type: 'double', value: 'rebateRatio', text: '返点比例', dictCode: ''})
+        fieldList.push({type: 'double', value: 'bonus', text: '奖金', dictCode: ''})
+        this.superFieldList = fieldList
+      }
     }
-  }
   }
 </script>
 <style scoped>
